@@ -1,15 +1,10 @@
 async function getPageContent(page_url) {
-    try {
-        const response = await fetch(page_url);
-        if (!response.ok) {
-            throw new Error('error');
-        }
-        const text = await response.text();
-        return text;
-    } catch (error) {
-        console.error(error);
+    const response = await fetch(page_url);
+    if (!response.ok) {
         return '';
     }
+    const text = await response.text();
+    return text;
 }
 
 const currentUrl = window.location.href;
