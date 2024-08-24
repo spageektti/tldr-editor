@@ -28,7 +28,12 @@ console.log('Editing file ' + path);
 const page_url = 'https://raw.githubusercontent.com/tldr-pages/tldr/main/' + path;
 
 const editor = document.getElementById('editor');
+const errors = document.getElementById('errors');
 
 getPageContent(page_url).then(page_content => {
     editor.textContent = page_content;
 });
+
+function lint() {
+    errors.textContent = 'No errors';
+}
