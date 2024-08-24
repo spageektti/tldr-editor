@@ -1,7 +1,13 @@
-function getPageContent(page_url) {
+async function getPageContent(page_url) {
     try {
-        return fetch(page_url);
-    } catch {
+        const response = await fetch(page_url);
+        if (!response.ok) {
+            throw new Error('error');
+        }
+        const text = await response.text();
+        return text;
+    } catch (error) {
+        console.error(error);
         return '';
     }
 }
@@ -25,7 +31,9 @@ const path = 'pages' + converted_lang + '/' + platform + '/' + page + '.md';
 console.log('Editing file ' + path);
 
 const page_url = 'https://raw.githubusercontent.com/tldr-pages/tldr/main/' + path;
-const page_content = getPageContent(page_url);
 
 const editor = document.getElementById('editor');
-editor.textContent = page_content;
+
+getPageContent(page_url).then(page_content => {
+    editor.textContent = page_content;
+});
