@@ -4,3 +4,25 @@ body {
     font-family: "Fira Mono", monospace;
     text-align: center;
 }
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input,
+select,
+textarea {
+    border: solid 1px white;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    font-family: "Fira Mono", monospace;
+    margin: 5px;
+}
+
+textarea {
+    width: 90vw;
+    height: 70vh;
+}

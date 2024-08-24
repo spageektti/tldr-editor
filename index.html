@@ -14,8 +14,29 @@
     </h1>
     <p>Enter the path and name of the page you want to edit/create.</p>
     <form action="app.html">
-        <input type="text" value="page" placeholder="pages.pl/common/ls.md"> <input type="submit">
+        <select name="lang">
+            <option value="en">English</option>
+            <option value="es">Spanish</option>
+            <option value="pl">Polish</option>
+            <!-- TODO: Add all languages -->
+        </select>
+
+        <select name="platform">
+            <option value="linux">Linux</option>
+            <option value="osx">macOS</option>
+            <option value="windows">Windows</option>
+            <option value="android">Android</option>
+            <option value="freebsd">FreeBSD</option>
+            <option value="openbsd">OpenBSD</option>
+            <option value="netbsd">NetBSD</option>
+            <option value="sunos">SunOS</option>
+            <option value="common">More than one platform</option>
+        </select>
+
+        <input type="text" name="page" placeholder="ls">
+        <input type="submit">
     </form>
+
 </body>
 
 </html>
