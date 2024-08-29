@@ -97,11 +97,9 @@ function format() {
 
 async function checkLoginStatus() {
     try {
-        const response = await fetch('../auth/status');
+        const response = await fetch('/auth/status');
         if (response.ok) {
             const status = await response.json();
-            console.log(status);
-            console.log(status.loggedIn);
             return status.loggedIn;
         }
         return false;
@@ -112,10 +110,37 @@ async function checkLoginStatus() {
 }
 
 async function commit() {
-    if (checkLoginStatus() == true) {
-        console.log("Committing...");
+    console.log("Committing...");
+    const loggedIn = await checkLoginStatus();
+
+    if (!loggedIn) {
+        window.location.href = '/auth/login';
+        return;
     }
-    else {
-        console.log("Not logged in to GitHub");
-    }
+
+    const fileContent = editor.value;
+    const encodedContent = encodeURIComponent(fileContent);
+    const commitUrl = `../commit`;
+
+    fetch(commitUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            fileContent,
+            message: `${page}: add page to user/tldr`
+        })
+    })
+        .then(response => response.text())
+        .then(data => {
+            if (data.startsWith('Commit error:')) {
+                errors.textContent = data;
+            } else {
+                errors.textContent = 'Commit successful';
+            }
+        })
+        .catch(error => {
+            errors.textContent = `An error occurred: ${error.message}`;
+        });
 }
