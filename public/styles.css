@@ -6,17 +6,56 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 0;
 }
 
-form {
+.editor-container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-input,
-select,
-textarea,
+.editor {
+    display: flex;
+    align-items: flex-start;
+    width: 90vw;
+    height: 90vh;
+    margin-bottom: 10px;
+    background-color: black;
+    color: white;
+    font-family: "Fira Mono", monospace;
+    border: 1px solid white;
+    overflow: auto;
+}
+
+.line-numbers {
+    width: 40px;
+    text-align: right;
+    background-color: #333;
+    color: white;
+    padding-top: 10px;
+    padding-right: 5px;
+    user-select: none;
+    overflow: hidden;
+    height: 100%;
+}
+
+textarea {
+    width: calc(100% - 40px);
+    height: 100%;
+    border: none;
+    border-left: 1px solid white;
+    background-color: black;
+    color: white;
+    font-family: "Fira Mono", monospace;
+    margin: 0;
+    padding: 10px;
+    resize: none;
+    outline: none;
+    overflow: auto;
+    box-sizing: border-box;
+}
+
 button {
     border: solid 1px white;
     border-radius: 5px;
@@ -24,11 +63,6 @@ button {
     color: white;
     font-family: "Fira Mono", monospace;
     margin: 5px;
-}
-
-textarea {
-    width: 90vw;
-    height: 70vh;
 }
 
 #errors {

@@ -1,3 +1,25 @@
+function updateLineNumbers() {
+    const textarea = document.getElementById("editor");
+    const lineNumbers = document.getElementById("line-numbers");
+
+    const lines = textarea.value.split("\n").length;
+
+    lineNumbers.innerHTML = '';
+    for (let i = 1; i <= lines; i++) {
+        const lineNumber = document.createElement("div");
+        lineNumber.textContent = i;
+        lineNumbers.appendChild(lineNumber);
+    }
+}
+
+function syncScroll() {
+    const textarea = document.getElementById("editor");
+    const lineNumbers = document.getElementById("line-numbers");
+    lineNumbers.scrollTop = textarea.scrollTop;
+}
+
+updateLineNumbers();
+
 async function getPageContent(page_url) {
     const response = await fetch(page_url);
     if (!response.ok) {
@@ -32,6 +54,7 @@ const errors = document.getElementById('errors');
 
 getPageContent(page_url).then(page_content => {
     editor.value = page_content;
+    updateLineNumbers()
 });
 
 function check() {

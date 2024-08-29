@@ -9,12 +9,18 @@
 </head>
 
 <body>
-    <textarea id="editor"></textarea>
     <button onclick="check()">Check</button>
-    <button onclick="format()">Format(use at own risk)</button>
+    <button onclick="format()">Format (use at own risk)</button>
     <p id="errors">Errors here</p>
-</body>
 
-<script src="app.js"></script>
+    <div class="editor-container">
+        <div class="editor">
+            <div class="line-numbers" id="line-numbers"></div>
+            <textarea id="editor" oninput="updateLineNumbers()" onscroll="syncScroll()"></textarea>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
 
 </html>
