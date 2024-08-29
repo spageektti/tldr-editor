@@ -35,6 +35,8 @@ getPageContent(page_url).then(page_content => {
 });
 
 function check() {
+    console.log("Checking...");
+
     const fileContent = editor.value;
 
     console.log(fileContent);
@@ -55,4 +57,21 @@ function check() {
 
 function format() {
     console.log("Formatting...");
+    const fileContent = editor.value;
+    const encodedContent = encodeURIComponent(fileContent);
+    const formatUrl = `../format/${encodedContent}`;
+
+    fetch(formatUrl)
+        .then(response => response.text())
+        .then(data => {
+            if (data.startsWith('Formatting error:')) {
+                errors.value = data;
+            } else {
+                editor.value = data;
+                errors.textContent = 'Formatting applied successfully';
+            }
+        })
+        .catch(error => {
+            errors.textContent = `An error occurred: ${error.message}`;
+        });
 }
