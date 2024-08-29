@@ -104,15 +104,36 @@ function format() {
         });
 }
 
+function saveToken() {
+    const token = document.getElementById('token-input').value;
+    if (token) {
+        localStorage.setItem('github_token', token);
+        alert('Token saved successfully');
+    } else {
+        alert('Please enter a valid token');
+    }
+}
+
+function getToken() {
+    return localStorage.getItem('github_token');
+}
+
 function commit() {
     console.log("Committing...");
     const fileContent = editor.value;
-    const message = 'namepage: add page to user/tldr'; // Commit message
+    const message = 'namepage: add page to user/tldr';
+
+    const token = getToken();
+    if (!token) {
+        errors.textContent = 'No token found. Please login or enter a token.';
+        return;
+    }
 
     fetch('../commit', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
             fileContent,

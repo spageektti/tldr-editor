@@ -49,9 +49,8 @@ app.get('/auth/status', (req, res) => {
 
 app.get('/auth/login', (req, res) => {
     console.log('GET /auth/login endpoint hit');
-    const scope = 'repo';
     console.log(`Redirecting to GitHub for authorization with client_id=${GITHUB_CLIENT_ID}`);
-    res.redirect(`https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${redirectUri}&scope=${scope}`);
+    res.redirect(`https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${redirectUri}`);
 });
 
 app.get('/auth/callback', async (req, res) => {
@@ -97,10 +96,18 @@ app.post('/commit', async (req, res) => {
     const { fileContent, message } = req.body;
     console.log('Received file content and commit message:', message);
 
-    const token = req.session && req.session.token;
+    // Check for token in Authorization header first
+    const authHeader = req.headers['authorization'];
+    let token;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+        token = authHeader.split(' ')[1];
+    } else {
+        // Fallback to session token if no Authorization header
+        token = req.session && req.session.token;
+    }
 
     if (!token) {
-        console.error('Unauthorized. No token found in session.');
+        console.error('Unauthorized. No token found in header or session.');
         return res.status(401).send('Unauthorized');
     }
 
@@ -197,6 +204,7 @@ app.post('/commit', async (req, res) => {
         res.status(500).send(`Commit error: ${error.message}`);
     }
 });
+
 
 app.get('/check/:fileContent', (req, res) => {
     console.log('GET /check/:fileContent endpoint hit');
