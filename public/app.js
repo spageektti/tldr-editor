@@ -27,28 +27,26 @@ console.log('Editing file ' + path);
 
 const page_url = 'https://raw.githubusercontent.com/tldr-pages/tldr/main/' + path;
 
-const editor = document.getElementById('editor');
 const errors = document.getElementById('errors');
 
 getPageContent(page_url).then(page_content => {
+    const editor = document.getElementById('editor');
     editor.textContent = page_content;
 });
 
 function lint() {
-    const fileContent = editor.textContent;
+    const fileContent = document.getElementById('editor').textContent;
+
+    console.log(fileContent);
 
     const encodedContent = encodeURIComponent(fileContent);
 
-    const checkUrl = `localhost:3000/check/${encodedContent}`;
+    const checkUrl = `../check/${encodedContent}`;
 
     fetch(checkUrl)
         .then(response => response.text())
         .then(data => {
-            if (data === 'No errors found') {
-                errors.textContent = 'No errors found';
-            } else {
-                errors.textContent = data;
-            }
+            errors.textContent = data;
         })
         .catch(error => {
             errors.textContent = `An error occurred: ${error.message}`;
