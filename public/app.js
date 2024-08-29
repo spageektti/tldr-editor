@@ -27,15 +27,15 @@ console.log('Editing file ' + path);
 
 const page_url = 'https://raw.githubusercontent.com/tldr-pages/tldr/main/' + path;
 
+const editor = document.getElementById('editor');
 const errors = document.getElementById('errors');
 
 getPageContent(page_url).then(page_content => {
-    const editor = document.getElementById('editor');
-    editor.textContent = page_content;
+    editor.value = page_content;
 });
 
 function lint() {
-    const fileContent = document.getElementById('editor').textContent;
+    const fileContent = editor.value;
 
     console.log(fileContent);
 
