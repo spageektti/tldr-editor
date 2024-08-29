@@ -54,18 +54,14 @@ const errors = document.getElementById('errors');
 
 getPageContent(page_url).then(page_content => {
     editor.value = page_content;
-    updateLineNumbers()
+    updateLineNumbers();
 });
 
 function check() {
     console.log("Checking...");
 
     const fileContent = editor.value;
-
-    console.log(fileContent);
-
     const encodedContent = encodeURIComponent(fileContent);
-
     const checkUrl = `../check/${encodedContent}`;
 
     fetch(checkUrl)
@@ -88,7 +84,7 @@ function format() {
         .then(response => response.text())
         .then(data => {
             if (data.startsWith('Formatting error:')) {
-                errors.value = data;
+                errors.textContent = data;
             } else {
                 editor.value = data;
                 errors.textContent = 'Formatting applied successfully';
@@ -97,4 +93,29 @@ function format() {
         .catch(error => {
             errors.textContent = `An error occurred: ${error.message}`;
         });
+}
+
+async function checkLoginStatus() {
+    try {
+        const response = await fetch('../auth/status');
+        if (response.ok) {
+            const status = await response.json();
+            console.log(status);
+            console.log(status.loggedIn);
+            return status.loggedIn;
+        }
+        return false;
+    } catch (error) {
+        console.error('Failed to check login status', error);
+        return false;
+    }
+}
+
+async function commit() {
+    if (checkLoginStatus() == true) {
+        console.log("Committing...");
+    }
+    else {
+        console.log("Not logged in to GitHub");
+    }
 }
