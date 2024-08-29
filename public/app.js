@@ -35,5 +35,22 @@ getPageContent(page_url).then(page_content => {
 });
 
 function lint() {
-    errors.textContent = 'No errors';
+    const fileContent = editor.textContent;
+
+    const encodedContent = encodeURIComponent(fileContent);
+
+    const checkUrl = `localhost:3000/check/${encodedContent}`;
+
+    fetch(checkUrl)
+        .then(response => response.text())
+        .then(data => {
+            if (data === 'No errors found') {
+                errors.textContent = 'No errors found';
+            } else {
+                errors.textContent = data;
+            }
+        })
+        .catch(error => {
+            errors.textContent = `An error occurred: ${error.message}`;
+        });
 }

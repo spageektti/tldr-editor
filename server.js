@@ -1,20 +1,21 @@
+const express = require('express');
+const cors = require('cors');
 const linter = require('./tldr-lint.js');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const express = require('express');
-const cors = require('cors');
 
 const app = express();
 const port = 3000;
 
-app.use(cors()); 
+app.use(cors());
+app.use(express.static('public'));
 
 app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
+    console.log(`Server listening on http://localhost:${port}`);
 });
 
-app.get('/', (req, res) => {
+app.get('/copyright', (req, res) => {
     res.send('tldr-lint API<br>Copyright (c) 2024 spageektti<br><br>' +
         'tldr-lint<br>Copyright (c) 2016 Ruben Vereecken<br>' +
         'Copyright(c) 2016 - present The tldr-pages team and contributors');
