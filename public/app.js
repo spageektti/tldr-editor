@@ -57,11 +57,20 @@ getPageContent(page_url).then(page_content => {
     updateLineNumbers();
 });
 
+function login() {
+    console.log("Redirecting to GitHub login...");
+    window.location.href = '/auth/login';
+}
+
 function check() {
     console.log("Checking...");
 
     const fileContent = editor.value;
+
+    console.log(fileContent);
+
     const encodedContent = encodeURIComponent(fileContent);
+
     const checkUrl = `../check/${encodedContent}`;
 
     fetch(checkUrl)
@@ -95,50 +104,24 @@ function format() {
         });
 }
 
-async function checkLoginStatus() {
-    try {
-        const response = await fetch('/auth/status');
-        if (response.ok) {
-            const status = await response.json();
-            return status.loggedIn;
-        }
-        return false;
-    } catch (error) {
-        console.error('Failed to check login status', error);
-        return false;
-    }
-}
-
-async function commit() {
+function commit() {
     console.log("Committing...");
-    const loggedIn = await checkLoginStatus();
-
-    if (!loggedIn) {
-        window.location.href = '/auth/login';
-        return;
-    }
-
     const fileContent = editor.value;
-    const encodedContent = encodeURIComponent(fileContent);
-    const commitUrl = `../commit`;
+    const message = 'namepage: add page to user/tldr'; // Commit message
 
-    fetch(commitUrl, {
+    fetch('../commit', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
             fileContent,
-            message: `${page}: add page to user/tldr`
+            message
         })
     })
         .then(response => response.text())
         .then(data => {
-            if (data.startsWith('Commit error:')) {
-                errors.textContent = data;
-            } else {
-                errors.textContent = 'Commit successful';
-            }
+            errors.textContent = data;
         })
         .catch(error => {
             errors.textContent = `An error occurred: ${error.message}`;
