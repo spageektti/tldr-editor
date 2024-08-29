@@ -34,7 +34,7 @@ getPageContent(page_url).then(page_content => {
     editor.value = page_content;
 });
 
-function lint() {
+function check() {
     const fileContent = editor.value;
 
     console.log(fileContent);
@@ -51,4 +51,8 @@ function lint() {
         .catch(error => {
             errors.textContent = `An error occurred: ${error.message}`;
         });
+}
+
+function format() {
+    console.log("Formatting...");
 }
