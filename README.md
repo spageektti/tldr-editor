@@ -1,5 +1,8 @@
 # TLDR-Editor
 
+![Zrzut ekranu_20240909_200116](https://github.com/user-attachments/assets/a7a96aa0-635b-4e82-9d20-e356cf59d8fa)
+![Zrzut ekranu_20240909_200217](https://github.com/user-attachments/assets/60b0afbd-51ea-404b-9a3e-bb2db9a050d0)
+
 TLDR-Editor is a web-based application designed for editing and formatting markdown files using the TLDR-Lint library. It provides a user-friendly interface for linting and formatting markdown content, with GitHub OAuth authentication for secure access.
 
 ## Features
